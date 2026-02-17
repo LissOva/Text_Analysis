@@ -1,0 +1,16 @@
+{
+  "texts": [
+    {
+      "title": "Introduction to Sorting",
+      "content": "The sorting algorithm is important for text analysis. Sorting helps to organize words by frequency."
+    },
+    {
+      "title": "Bubble Sort",
+      "content": "Bubble sort is simple but slow. However it is easy to understand and implement."
+    },
+    {
+      "title": "Merge Sort",
+      "content": "Merge sort is fast and stable. It has O(n log n) complexity and works perfectly on large datasets."
+    }
+  ]
+}
