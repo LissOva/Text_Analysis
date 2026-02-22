@@ -1,11 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Text_Analysis.Model;
 using static System.Net.Mime.MediaTypeNames;
 using Text_Analysis;
+using System.Text.Json;
+
+
 
 Console.Write(
 "Text Analysis\n" +
@@ -31,30 +33,30 @@ switch (userSelect)
         break;
 }
 
-string text = "";
-//rawText = Console.ReadLine();
+//string text = "";
+////rawText = Console.ReadLine();
 
-text = "The sorting algorithm is important for text analysis. Sorting helps to organize words by frequency. The algorithm must be efficient and fast. Bubble sort is simple but slow. Merge sort is fast and stable. Shell sort is interesting and useful. The built-in sort is optimized and reliable. I love sorting algorithms because they are fundamental. Sorting text data requires clean preprocessing. The text must be cleaned before sorting. Words should be counted first then sorted. The frequency determines the order. High frequency words appear first. Low frequency words appear last. Sorting is essential for analysis. The algorithm choice affects performance. Performance matters for large texts. Large texts need efficient sorting. Efficient algorithms save time and memory. Memory usage is critical for big data. Big data requires smart algorithms. Smart algorithms make programs fast";
-Console.WriteLine(text + "\n");
+//text = "The sorting algorithm is important for text analysis. Sorting helps to organize words by frequency. The algorithm must be efficient and fast. Bubble sort is simple but slow. Merge sort is fast and stable. Shell sort is interesting and useful. The built-in sort is optimized and reliable. I love sorting algorithms because they are fundamental. Sorting text data requires clean preprocessing. The text must be cleaned before sorting. Words should be counted first then sorted. The frequency determines the order. High frequency words appear first. Low frequency words appear last. Sorting is essential for analysis. The algorithm choice affects performance. Performance matters for large texts. Large texts need efficient sorting. Efficient algorithms save time and memory. Memory usage is critical for big data. Big data requires smart algorithms. Smart algorithms make programs fast";
+//Console.WriteLine(text + "\n");
 
-text = text.ToLowerInvariant();
-text = CleanText(text);
+//text = text.ToLowerInvariant();
+//text = CleanText(text);
 
-List<string> wordList = text.Split(' ').ToList();
+//List<string> wordList = text.Split(' ').ToList();
 
-Console.WriteLine(string.Join(" ", wordList) + "\n");
+//Console.WriteLine(string.Join(" ", wordList) + "\n");
 
-Dictionary<string, int> wordCount = new Dictionary<string, int>();
+//Dictionary<string, int> wordCount = new Dictionary<string, int>();
 
-foreach (var word in wordList)
-{
-    if (wordCount.ContainsKey(word)) wordCount[word]++;
-    else wordCount[word] = 1;
-}
+//foreach (var word in wordList)
+//{
+//    if (wordCount.ContainsKey(word)) wordCount[word]++;
+//    else wordCount[word] = 1;
+//}
 
-var sortedByValueDesc = BuiltInSort(wordCount);
+//var sortedByValueDesc = BuiltInSort(wordCount);
 
-Console.WriteLine(string.Join("\n", sortedByValueDesc));
+//Console.WriteLine(string.Join("\n", sortedByValueDesc));
 
 static List<string> TextInputKeyboard()
 {
@@ -67,9 +69,26 @@ static List<string> TextInputKeyboard()
 
 static void TextInputFile()
 {
-    var loader = new TextLoader();
-    TextDataset dataset = loader.Load("input.json");
 
+    string filePath = Path.Combine(
+     AppDomain.CurrentDomain.BaseDirectory,
+     "..",
+     "..",
+     "..",
+     "Dataset",
+     "texts.json"
+ );
+    filePath = Path.GetFullPath(filePath);
+
+    string json = File.ReadAllText(filePath);
+    TextDataset dataset = JsonSerializer.Deserialize<TextDataset>(json);
+
+    // Обработка текстов
+    foreach (var text in dataset.Texts)
+    {
+        Console.WriteLine($"Title: {text.Title}");
+        Console.WriteLine($"Content: {text.Content}\n");
+    }
 }
 
 //Подготовка текста
