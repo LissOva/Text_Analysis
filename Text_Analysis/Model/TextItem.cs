@@ -13,5 +13,12 @@ namespace Text_Analysis.Model
         [JsonPropertyName("content")]
 
         public string Content { get; set; }
+
+        public TextItem() { }
+        public TextItem(string title, string content) 
+        {
+            this.Title = title;
+            this.Content = content;
+        }
     }
 }

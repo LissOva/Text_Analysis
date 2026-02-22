@@ -1,13 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
-using System.Text.RegularExpressions;
-using Text_Analysis.Model;
-using static System.Net.Mime.MediaTypeNames;
-using Text_Analysis;
 using System.Text.Json;
-
-
+using System.Text.RegularExpressions;
+using Text_Analysis;
+using Text_Analysis.Model;
 
 Console.Write(
 "Text Analysis\n" +
@@ -19,18 +17,25 @@ Console.Write(
 
 int userSelect = Convert.ToInt32(Console.ReadLine());
 
-List<string> textList;
+TextDataset texts = new TextDataset();
 
 switch (userSelect)
 {
     case 1:
-        textList = TextInputKeyboard();
+        texts = TextInputKeyboard();
         break;
     case 2:
-        TextInputFile();
+        texts = TextInputFile();
         break;
     default:
         break;
+}
+
+// Обработка текстов
+foreach (var text in texts.Texts)
+{
+    Console.WriteLine($"Title: {text.Title}");
+    Console.WriteLine($"Content: {text.Content}\n");
 }
 
 //string text = "";
@@ -58,16 +63,22 @@ switch (userSelect)
 
 //Console.WriteLine(string.Join("\n", sortedByValueDesc));
 
-static List<string> TextInputKeyboard()
+static TextDataset TextInputKeyboard()
 {
-    List<string> textList = new List<string>();
+    Console.WriteLine("Ener title: ");
+    string title = Console.ReadLine();
+    Console.WriteLine("Ener text: ");
     string text = Console.ReadLine();
-    textList.Add(text);
+    
+    TextItem textItem = new TextItem(title, text);
 
-    return textList;
+    TextDataset dataset = new TextDataset(textItem);
+    
+    return dataset;
 }
 
-static void TextInputFile()
+//Чтение из файла json
+static TextDataset TextInputFile()  
 {
 
     string filePath = Path.Combine(
@@ -83,12 +94,7 @@ static void TextInputFile()
     string json = File.ReadAllText(filePath);
     TextDataset dataset = JsonSerializer.Deserialize<TextDataset>(json);
 
-    // Обработка текстов
-    foreach (var text in dataset.Texts)
-    {
-        Console.WriteLine($"Title: {text.Title}");
-        Console.WriteLine($"Content: {text.Content}\n");
-    }
+    return dataset;
 }
 
 //Подготовка текста

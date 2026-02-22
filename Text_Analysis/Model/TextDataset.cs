@@ -9,5 +9,14 @@ namespace Text_Analysis.Model
     {
         [JsonPropertyName("texts")]
         public List<TextItem> Texts { get; set; }
+
+
+        public TextDataset() { }
+        public TextDataset(TextItem text) {
+
+            List<TextItem> texts = new List<TextItem>();
+            texts.Add(text);
+            this.Texts = texts;
+        }
     }
 }
