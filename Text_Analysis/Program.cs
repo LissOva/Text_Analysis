@@ -8,54 +8,104 @@ using System.Text.RegularExpressions;
 using Text_Analysis;
 using Text_Analysis.Model;
 
-Console.Write(
-"Text Analysis\n" +
-"Select a text input method:\n" +
-"1 Keyboard (only 1 text)\n" +
-"2 File\n" +
-"Select: "
- );
-
-int userSelect = Convert.ToInt32(Console.ReadLine());
-
-TextDataset texts = new TextDataset();
-
-switch (userSelect)
+string userSelect = "";
+do
 {
-    case 1:
-        texts = TextInputKeyboard();
-        break;
-    case 2:
-        texts = TextInputFile();
-        break;
-    default:
-        break;
+    Console.Clear();
+    //Главное меню
+    ConsoleTitle("Text Analysis\n");
+    Console.WriteLine("Select a text input method:");
+    ConsoleButton("1");
+    Console.WriteLine("Keyboard (only 1 text)");
+    ConsoleButton("2");
+    Console.WriteLine("File");
+    Console.WriteLine("\nОther functions:");
+    ConsoleButton("I");
+    Console.WriteLine("for more Information about program");
+    ConsoleButton("E");
+    Console.WriteLine("for Exit");
+    Console.Write("\nSelect: ");
+
+    userSelect = Console.ReadLine();
+    userSelect = userSelect.ToUpper();
+
+    TextDataset texts = new TextDataset();
+
+    switch (userSelect)
+    {
+        case "1":
+            texts = TextInputKeyboard();
+            AnalysisText(texts);
+            break;
+        case "2":
+            texts = TextInputFile();
+            AnalysisText(texts);
+            break;
+        case "I":
+            Console.WriteLine("This application analyzes your text. \n" +
+                "You provide a title and the content of the text.\n" +
+                "As a result, you see the top words by frequency of usage and the percentage of unique words.\n" +
+                "\nYou can use JSON file:\n" +
+                "...Text_Analysis\\Dataset\\input.json");
+            break;
+        case "E":
+            Environment.Exit(0);
+            break;
+        default:
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("The selected option was not found.\nPlease try again.");
+            Console.ResetColor();
+            break;
+    }
+    Console.ReadKey();
+} while (userSelect != "E");
+
+
+//Форматирование кнопок
+static void ConsoleButton(string btn)
+{
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.Write($" [{btn}] ");
+    Console.ResetColor();
+
+}
+
+//Форматирование заголовков
+static void ConsoleTitle(string title)
+{
+    Console.ForegroundColor = ConsoleColor.Magenta;
+    Console.WriteLine("\n" + title);
+    Console.ResetColor();
+
 }
 
 // Обработка текстов
-foreach (var textItem in texts.Texts)
+static void AnalysisText(TextDataset texts)
 {
-    Console.WriteLine($"Text Analysis: {textItem.Title}");
-    Console.WriteLine($"Result:");
-
-    string text = textItem.Content;
-    text = text.ToLowerInvariant();
-    text = CleanText(text);
-
-    List<string> wordList = text.Split(' ').ToList();
-
-    Dictionary<string, int> wordCount = new Dictionary<string, int>();
-
-    foreach (var word in wordList)
+    Console.Clear();
+    foreach (var textItem in texts.Texts)
     {
-        if (wordCount.ContainsKey(word)) wordCount[word]++;
-        else wordCount[word] = 1;
+        ConsoleTitle(textItem.Title);
+
+        string text = textItem.Content;
+        text = text.ToLowerInvariant();
+        text = CleanText(text);
+
+        List<string> wordList = text.Split(' ').ToList();
+
+        Dictionary<string, int> wordCount = new Dictionary<string, int>();
+
+        foreach (var word in wordList)
+        {
+            if (wordCount.ContainsKey(word)) wordCount[word]++;
+            else wordCount[word] = 1;
+        }
+
+        var sortedBuiltIn = BuiltInSort(wordCount);
+
+        var sortedBubbleSort = BubbleSort(wordCount);
+
     }
-
-    var sortedBuiltIn = BuiltInSort(wordCount);
-
-    var sortedBubbleSort= BubbleSort(wordCount);
-
 }
 
 static TextDataset TextInputKeyboard()
@@ -64,16 +114,16 @@ static TextDataset TextInputKeyboard()
     string title = Console.ReadLine();
     Console.WriteLine("Ener text: ");
     string text = Console.ReadLine();
-    
+
     TextItem textItem = new TextItem(title, text);
 
     TextDataset dataset = new TextDataset(textItem);
-    
+
     return dataset;
 }
 
 //Чтение из файла json
-static TextDataset TextInputFile()  
+static TextDataset TextInputFile()
 {
 
     string filePath = Path.Combine(
@@ -82,7 +132,7 @@ static TextDataset TextInputFile()
      "..",
      "..",
      "Dataset",
-     "texts.json"
+     "input.json"
  );
     filePath = Path.GetFullPath(filePath);
 
@@ -117,21 +167,17 @@ static List<KeyValuePair<string, int>> BuiltInSort(Dictionary<string, int> dicti
 //Сортировка пузырьком
 static List<KeyValuePair<string, int>> BubbleSort(Dictionary<string, int> dictionary)
 {
-    // Преобразуем словарь в массив для сортировки
     var items = dictionary.ToArray();
     int n = items.Length;
 
-    // Сортировка пузырьком по убыванию значения
     for (int i = 0; i < n - 1; i++)
     {
         bool swapped = false;
 
         for (int j = 0; j < n - i - 1; j++)
         {
-            // Сравниваем по значению - сортируем по убыванию
             if (items[j].Value < items[j + 1].Value)
             {
-                // Меняем местами
                 var temp = items[j];
                 items[j] = items[j + 1];
                 items[j + 1] = temp;
@@ -139,12 +185,11 @@ static List<KeyValuePair<string, int>> BubbleSort(Dictionary<string, int> dictio
             }
         }
 
-        // Если не было обменов — массив уже отсортирован
         if (!swapped)
             break;
     }
 
-    return new List<KeyValuePair<string, int>>(items);
+    return [.. items];
 }
 
 //Сортировка слиянием
@@ -154,7 +199,8 @@ static List<KeyValuePair<string, int>> MergeSort(Dictionary<string, int> diction
 }
 
 //Сортировка Шелла
-static List<KeyValuePair<string, int>> Shellsort(Dictionary<string, int> dictionary)
+static List<KeyValuePair<string, int>> ShellSort(Dictionary<string, int> dictionary)
 {
     return new List<KeyValuePair<string, int>>();
 }
+
