@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Text_Analysis;
 using System.Text.Json.Serialization;
 
 namespace Text_Analysis.Model
