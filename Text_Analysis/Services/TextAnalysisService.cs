@@ -9,6 +9,7 @@ namespace Text_Analysis.Services
         public static void AnalysisText(TextDataset texts)
         {
             Console.Clear();
+            int n = 1;
             foreach (var textItem in texts.Texts)
             {
                 string text = textItem.Content;
@@ -28,10 +29,14 @@ namespace Text_Analysis.Services
                 //var sortedMergeSort = SortingService.MergeSort(wordCount);
                 //var sortedShellSort = SortingService.ShellSort(wordCount);
 
-                Console.Write(new string(' ', (38 - textItem.Title.Length) / 2));
-                FormattingService.ConsoleTitle(textItem.Title);
-                ConsoleTopWrite(sortedBuiltIn);
-                ConsoleStatisticsWrite(wordList, sortedBuiltIn);
+                var top = GetTop(sortedBuiltIn);
+                int totalCount = GetWordsCount(wordList);
+                int uniqCount = GetUniqWordsCount(sortedBuiltIn);
+                double uniqPercentage = GetUniqWordPercent(totalCount, uniqCount);
+
+                TextHandlerService.TextOutputConsole(textItem.Title, top, totalCount, uniqCount, uniqPercentage);
+                TextHandlerService.TextOutputFile(n, textItem.Title, top, totalCount, uniqCount, uniqPercentage);
+                n++;
             }
         }
 
@@ -52,46 +57,24 @@ namespace Text_Analysis.Services
             return cleaned;
         }
 
-        //Вывести топ использования слов
-        internal static void ConsoleTopWrite(List<KeyValuePair<string, int>> list)
+        //Получить топ использования слов
+        internal static List<WordCount> GetTop(List<KeyValuePair<string, int>> list)
         {
-            const int rankWidth = 3;
-            const int wordWidth = 20;
-            const int countWidth = 5;
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"{"#",3}    {"Word",-20}    {"Count",5}");
-            Console.WriteLine(new string('-', 38));
-            Console.ResetColor();
-
+            List<WordCount> TopWords = new List<WordCount>();
             int i = 0;
-            for (int rank = 0; rank < 10; rank++)
+            for (int rank = 0; rank < 10 && i < list.Count; rank++)
             {
-                Console.WriteLine($"{rank + 1,rankWidth}    {list[i].Key,-wordWidth}    {list[i].Value,countWidth}");
-                if (list[i].Value == list[i + 1].Value)
+                TopWords.Add(new WordCount(list[i].Key, list[i].Value));
+                while (i + 1 < list.Count && list[i].Value == list[i + 1].Value)
                 {
-                    while (list[i].Value == list[i + 1].Value)
-                    {
-                        Console.WriteLine($"{" ",rankWidth}    {list[i + 1].Key,-wordWidth}    {list[i + 1].Value,countWidth}");
-                        i++;
-                    }
+                    TopWords.Add(new WordCount(list[i + 1].Key, list[i + 1].Value));
+                    i++;
                 }
                 i++;
             }
+            return TopWords;
         }
-        
-        //Вывести общую статистику
 
-        internal static void ConsoleStatisticsWrite(List<string> words, List<KeyValuePair<string, int>> list)
-        {
-            FormattingService.ConsoleHighlight("Total number of words: ");
-            Console.WriteLine(GetWordsCount(words));
-            FormattingService.ConsoleHighlight("Unique words: ");
-            Console.WriteLine(CountUniqWords(list));
-            FormattingService.ConsoleHighlight("Percentage of unique words: ");
-            Console.WriteLine($"{Math.Round(CountUniqWordPercent(GetWordsCount(words), CountUniqWords(list)), 2)}%");
-        }
-        
         //Получить общее количество слов
         internal static int GetWordsCount(List<string> words)
         {
@@ -99,7 +82,7 @@ namespace Text_Analysis.Services
         }
 
         //Получить количество уникальных слов
-        internal static int CountUniqWords(List<KeyValuePair<string, int>> list)
+        internal static int GetUniqWordsCount(List<KeyValuePair<string, int>> list)
         {
             int uniqCount = 0;
             int n = list.Count - 1;
@@ -112,11 +95,11 @@ namespace Text_Analysis.Services
         }
 
         //Получить процент уникальных слов
-        internal static double CountUniqWordPercent(double totalCount, double uniqCount)
+        internal static double GetUniqWordPercent(double totalCount, double uniqCount)
         {
             return uniqCount * 100.0 / totalCount;
         }
 
-        
+
     }
 }

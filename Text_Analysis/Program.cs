@@ -28,12 +28,12 @@ do
     {
         //Ввод с клавиатуры
         case "1":
-            texts = TextLoaderService.TextInputKeyboard();
+            texts = TextHandlerService.TextInputKeyboard();
             TextAnalysisService.AnalysisText(texts);
             break;
         //Чтение с файла
         case "2":
-            texts = TextLoaderService.TextInputFile();
+            texts = TextHandlerService.TextInputFile();
             TextAnalysisService.AnalysisText(texts);
             break;
         //Информация о приложении
