@@ -79,10 +79,9 @@ namespace Text_Analysis.Services
             Console.WriteLine($"{Math.Round(uniqPercent)}%");
         }
 
-        // Запись в файл json
+        //Запись в файл json
         public static void TextOutputFile(int n, string title, List<WordCount> list, int totalCount, int uniqCount, double uniqPercent)
         {
-            // Формируем объект результата
             var result = new AnalysisResult
             {
                 Title = title,
@@ -92,7 +91,6 @@ namespace Text_Analysis.Services
                 UniqueWordsPercentage = Math.Round(uniqPercent, 2)
             };
 
-            // Путь к файлу
             string filePath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "..", "..", "..",
@@ -101,17 +99,14 @@ namespace Text_Analysis.Services
             );
             filePath = Path.GetFullPath(filePath);
 
-            // Создаём директорию, если её нет
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
-            // Настройки сериализации
             var options = new JsonSerializerOptions
             {
                 WriteIndented = true,
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic)
             };
 
-            // Сериализация и запись в файл
             string json = JsonSerializer.Serialize(result, options);
             File.WriteAllText(filePath, json);
 
