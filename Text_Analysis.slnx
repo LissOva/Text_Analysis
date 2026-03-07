@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="TestProject_Text_Analysis/TestProject_Text_Analysis.csproj" Id="72341dda-b676-4f43-a54a-3b420373a864" />
   <Project Path="Text_Analysis/Text_Analysis.csproj" />
 </Solution>

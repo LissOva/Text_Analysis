@@ -13,9 +13,9 @@ do
     FormattingService.ConsoleButton("2");
     Console.WriteLine("File");
     Console.WriteLine("\nОther functions:");
-    FormattingService.ConsoleButton("I");
+    FormattingService.ConsoleButton("h");
     Console.WriteLine("for more Information about program");
-    FormattingService.ConsoleButton("E");
+    FormattingService.ConsoleButton("q");
     Console.WriteLine("for Exit");
     Console.Write("\nSelect: ");
 
@@ -37,15 +37,16 @@ do
             TextAnalysisService.AnalysisText(texts);
             break;
         //Информация о приложении
-        case "I":
+        case "H":
+            Console.Clear();
             Console.WriteLine("This application analyzes your text. \n" +
                 "You provide a title and the content of the text.\n" +
                 "As a result, you see the top words by frequency of usage and the percentage of unique words.\n" +
                 "\nYou can use JSON file:\n" +
-                "...Text_Analysis\\Dataset\\input.json");
+                "...Text_Analysis\\Dataset\\input.json\n");
             break;
         //Выход
-        case "E":
+        case "Q":
             Environment.Exit(0);
             break;
         //Другие случаи
@@ -55,5 +56,8 @@ do
             Console.ResetColor();
             break;
     }
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine("Press any key...");
+    Console.ResetColor();
     Console.ReadKey();
-} while (userSelect != "E");
+} while (userSelect != "Q");

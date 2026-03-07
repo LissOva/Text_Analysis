@@ -111,8 +111,9 @@ namespace Text_Analysis.Services
             File.WriteAllText(filePath, json);
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\nРезультаты сохранены в {filePath}\n\n");
+            Console.WriteLine($"\nThe results are saved in {filePath}\n\n");
             Console.ResetColor();
         }
+
     }
 }

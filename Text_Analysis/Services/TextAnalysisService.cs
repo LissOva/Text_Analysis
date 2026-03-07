@@ -13,6 +13,7 @@ namespace Text_Analysis.Services
             foreach (var textItem in texts.Texts)
             {
                 string text = textItem.Content;
+
                 text = CleanText(text);
 
                 List<string> wordList = text.Split(' ').ToList();
@@ -86,7 +87,7 @@ namespace Text_Analysis.Services
         {
             int uniqCount = 0;
             int n = list.Count - 1;
-            while (list[n].Value == 1)
+            while (n >= 0 && list[n].Value == 1)
             {
                 uniqCount++;
                 n--;
