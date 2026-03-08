@@ -43,8 +43,9 @@ namespace Text_Analysis.Services
 
         //Подготовка текста
         //В тексте остаются только буквы, апострофы/дефисы внyтри слова и одиночные пробелы 
-        internal static string CleanText(string text)
+        public static string CleanText(string text)
         {
+            if (string.IsNullOrEmpty(text)) return "";
             text = text.ToLowerInvariant();
 
             if (string.IsNullOrEmpty(text))
@@ -59,8 +60,11 @@ namespace Text_Analysis.Services
         }
 
         //Получить топ использования слов
-        internal static List<WordCount> GetTop(List<KeyValuePair<string, int>> list)
+        public static List<WordCount> GetTop(List<KeyValuePair<string, int>> list)
         {
+            if (list == null || list.Count == 0)
+                return new List<WordCount>();
+
             List<WordCount> TopWords = new List<WordCount>();
             int i = 0;
             for (int rank = 0; rank < 10 && i < list.Count; rank++)
@@ -77,13 +81,14 @@ namespace Text_Analysis.Services
         }
 
         //Получить общее количество слов
-        internal static int GetWordsCount(List<string> words)
+        public static int GetWordsCount(List<string> words)
         {
+            if(words == null) return 0;
             return words.Count;
         }
 
         //Получить количество уникальных слов
-        internal static int GetUniqWordsCount(List<KeyValuePair<string, int>> list)
+        public static int GetUniqWordsCount(List<KeyValuePair<string, int>> list)
         {
             int uniqCount = 0;
             int n = list.Count - 1;
@@ -96,8 +101,11 @@ namespace Text_Analysis.Services
         }
 
         //Получить процент уникальных слов
-        internal static double GetUniqWordPercent(double totalCount, double uniqCount)
+        public static double GetUniqWordPercent(double totalCount, double uniqCount)
         {
+            if (totalCount == 0)
+                return 0;
+
             return uniqCount * 100.0 / totalCount;
         }
 
