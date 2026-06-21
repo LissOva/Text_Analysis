@@ -1,0 +1,24 @@
+{
+  "Title": "еуеу",
+  "TopWords": [
+    {
+      "Word": "оео",
+      "Count": 2
+    },
+    {
+      "Word": "фф",
+      "Count": 1
+    },
+    {
+      "Word": "кк",
+      "Count": 1
+    },
+    {
+      "Word": "аа",
+      "Count": 1
+    }
+  ],
+  "TotalWords": 5,
+  "UniqueWords": 3,
+  "UniqueWordsPercentage": 60
+}

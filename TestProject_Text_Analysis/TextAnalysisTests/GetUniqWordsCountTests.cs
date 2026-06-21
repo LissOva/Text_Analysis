@@ -4,13 +4,12 @@ namespace TestProject_Text_Analysis.TextAnalysisTests
 {
     public class GetUniqWordsCountTests
     {
-        // Граничные случаи: пустой список, один элемент
         [Theory]
-        [InlineData(0, 0)]   // пустой список
-        [InlineData(5, 0)] // ни одного уникального слова
-        [InlineData(1, 1)]   // один уникальный элемент (частота = 1)
-        [InlineData(10, 3)]  // 10 слов, из них 3 уникальных в конце
-        [InlineData(5, 5)]   // все 5 слов уникальны
+        [InlineData(0, 0)]
+        [InlineData(5, 0)]
+        [InlineData(1, 1)]
+        [InlineData(10, 3)]
+        [InlineData(5, 5)]
         public void GetUniqWordsCountTest_Boundary(
             int totalWords, int uniqWords)
         {
