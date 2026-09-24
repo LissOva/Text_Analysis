@@ -3,21 +3,24 @@
 namespace TestProject_Text_Analysis.UnitTests
 {
     public class BuiltInSortTests
-    {   
+    {
+        //Boundary Value Analysis
+
+        //BVA01 Вход
         [Fact]
-        public void BuiltInSortTest_NormalList()
+        public void BuiltInSortTest_EmptyList()
         {
             // Arrange 
-            var value = TestValue.normalDictionary;
+            var value = new Dictionary<string, int>();
 
             // Act
             var result = sortingService.BuiltInSort(value);
 
             // Assert
-            var expectedResult = TestValue.normalList;
-            Assert.Equal(result, expectedResult);
+            Assert.Empty(result);
         }
 
+        //BVA02 Внутренний
         [Fact]
         public void BuiltInSortTest_OneWordList()
         {
@@ -36,6 +39,7 @@ namespace TestProject_Text_Analysis.UnitTests
             Assert.Equal(result, expectedResult);
         }
 
+        //BVA03 Внутренний
         [Fact]
         public void BuiltInSortTest_TwoWordsList()
         {
@@ -54,7 +58,63 @@ namespace TestProject_Text_Analysis.UnitTests
             Assert.Equal(result, expectedResult);
         }
 
+        //BVA04 Выход //ECP05 Выход
+        [Fact]
+        public void BuiltInSortTest_Null()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => sortingService.BuiltInSort(null));
+        }
 
+        //Equivalence Partitioning
+
+        //ECP01 Вход
+        [Fact]
+        public void BuiltInSortTest_SameList()
+        {
+            // Arrange
+            var value = TestValue.sameValueDictionary;
+
+            // Act
+            var result = sortingService.BuiltInSort(value);
+
+            // Assert
+            // Assert
+            var expectedResult = TestValue.sameValueList;
+            Assert.Equal(result, expectedResult);
+        }
+
+        //ECP02 Вход
+        [Fact]
+        public void BuiltInSortTest_NormalList()
+        {
+            // Arrange 
+            var value = TestValue.sortedDictionary;
+
+            // Act
+            var result = sortingService.BuiltInSort(value);
+
+            // Assert
+            var expectedResult = TestValue.sortedList;
+            Assert.Equal(result, expectedResult);
+        }
+
+        //ECP03 Внутренний
+        [Fact]
+        public void BuiltInSortTest_ReversedList()
+        {
+            // Arrange
+            var value = TestValue.reversedDictionary;
+
+            // Act
+            var result = sortingService.BuiltInSort(value);
+
+            // Assert
+            var expectedResult = TestValue.reversedList;
+            Assert.Equal(result, expectedResult);
+        }
+
+        //ECP04 Внутренний
         [Fact]
         public void BuiltInSortTest_LargeList()
         {
@@ -74,55 +134,6 @@ namespace TestProject_Text_Analysis.UnitTests
             Assert.Equal(0, result[999].Value);    
             Assert.True(result[0].Value > result[1].Value);  
             Assert.False(result[998].Value < result[999].Value); 
-        }
-
-        [Fact]
-        public void BuiltInSortTest_SameList()
-        {
-            // Arrange
-            var value = TestValue.sameValueDictionary;
-
-            // Act
-            var result = sortingService.BuiltInSort(value);
-
-            // Assert
-            // Assert
-            var expectedResult = TestValue.sameValueList;
-            Assert.Equal(result, expectedResult);
-        }
-
-        [Fact]
-        public void BuiltInSortTest_ReversedList()
-        {
-            // Arrange
-            var value = TestValue.reversedDictionary;
-
-            // Act
-            var result = sortingService.BuiltInSort(value);
-
-            // Assert
-            var expectedResult = TestValue.reversedList;
-            Assert.Equal(result, expectedResult);
-        }
-
-        [Fact]
-        public void BuiltInSortTest_EmptyList()
-        {
-            // Arrange 
-            var value = new Dictionary<string, int>();
-
-            // Act
-            var result = sortingService.BuiltInSort(value);
-
-            // Assert
-            Assert.Empty(result);
-        }
-
-        [Fact]
-        public void BuiltInSortTest_Null()
-        {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => sortingService.BuiltInSort(null));
         }
     }
 }

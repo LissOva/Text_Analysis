@@ -7,7 +7,7 @@ namespace TestProject_Text_Analysis.TextAnalysisTests
 {
     public class GetTopTests
     {
-
+        //TCST01
         public static List<KeyValuePair<string, int>> normalList = new List<KeyValuePair<string, int>>
             {
                 new KeyValuePair<string, int>("j", 100),
@@ -51,19 +51,6 @@ namespace TestProject_Text_Analysis.TextAnalysisTests
                 new KeyValuePair<string, int>("a", 91),
                 new KeyValuePair<string, int>("k", 90),
                 new KeyValuePair<string, int>("l", 88)
-            };
-        List<WordCount> oneTopWords = new List<WordCount>
-            {
-                new WordCount("j", 100),
-                new WordCount("i", 99),
-                new WordCount("h", 98),
-                new WordCount("g", 97),
-                new WordCount("f", 96),
-                new WordCount("e", 95),
-                new WordCount("d", 94),
-                new WordCount("c", 93),
-                new WordCount("b", 92),
-                new WordCount("a", 91),
             };
 
         public static List<KeyValuePair<string, int>> smallList = new List<KeyValuePair<string, int>>
@@ -121,6 +108,7 @@ namespace TestProject_Text_Analysis.TextAnalysisTests
                 new WordCount("m", 89),
             };
 
+        //TCST01
         [Fact]
         public void GetTopTest_NormalTop() {
             // Arrange 

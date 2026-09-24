@@ -4,6 +4,7 @@ namespace TestProject_Text_Analysis.TextAnalysisTests
 {
     public class GetWordsCountTests
     {
+        //TCST02
         [Theory]
         [InlineData(null, 0)]
         [InlineData(0, 0)]

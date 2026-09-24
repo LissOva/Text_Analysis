@@ -66,22 +66,18 @@ namespace TestProject_Text_Analysis.UnitTests
                 new KeyValuePair<string, int>("a", 1)
             };
 
-        public static Dictionary<string, int> normalDictionary = new Dictionary<string, int>
+        public static Dictionary<string, int> sortedDictionary = new Dictionary<string, int>
             {
-                { "apple", 5 },
-                { "banana", 10 },
-                { "cherry", 3 },
-                { "date", 9 },
-                { "elderberry", 8 }
+                { "a", 10 },
+                { "b", 9 },
+                { "c", 8 },
             };
 
-        public static List<KeyValuePair<string, int>> normalList = new List<KeyValuePair<string, int>>
+        public static List<KeyValuePair<string, int>> sortedList = new List<KeyValuePair<string, int>>
             {
-            new KeyValuePair<string, int>("banana", 10 ),
-            new KeyValuePair<string, int>("date", 9),
-            new KeyValuePair<string, int>("elderberry", 8),
-            new KeyValuePair<string, int>("apple", 5),
-            new KeyValuePair<string, int>("cherry", 3),
+            new KeyValuePair<string, int>("a", 10 ),
+            new KeyValuePair<string, int>("b", 9),
+            new KeyValuePair<string, int>("c", 8),
             };
 
         public static Dictionary<string, int> GenerateLargeDictionary()

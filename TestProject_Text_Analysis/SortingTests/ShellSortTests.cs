@@ -8,13 +8,13 @@ namespace TestProject_Text_Analysis.UnitTests
         public void ShellSortTest_NormalList()
         {
             // Arrange 
-            var value = TestValue.normalDictionary;
+            var value = TestValue.sortedDictionary;
 
             // Act
             var result = sortingService.ShellSort(value);
 
             // Assert
-            var expectedResult = TestValue.normalList;
+            var expectedResult = TestValue.sortedList;
             Assert.Equal(result, expectedResult);
         }
 

@@ -62,20 +62,20 @@ namespace Text_Analysis.Services
         //Получить топ использования слов
         public static List<WordCount> GetTop(List<KeyValuePair<string, int>> list)
         {
-            if (list == null || list.Count == 0)
+            if (list == null || list.Count == 0) // ST01
                 return new List<WordCount>();
 
-            List<WordCount> TopWords = new List<WordCount>();
-            int i = 0;
-            for (int rank = 0; rank < 10 && i < list.Count; rank++)
+            List<WordCount> TopWords = new List<WordCount>(); // ST02
+            int i = 0; //ST03
+            for (int rank = 0; rank < 10 && i < list.Count; rank++) // ST04
             {
-                TopWords.Add(new WordCount(list[i].Key, list[i].Value));
-                while (i + 1 < list.Count && list[i].Value == list[i + 1].Value)
+                TopWords.Add(new WordCount(list[i].Key, list[i].Value)); // ST05
+                while (i + 1 < list.Count && list[i].Value == list[i + 1].Value) // ST06
                 {
-                    TopWords.Add(new WordCount(list[i + 1].Key, list[i + 1].Value));
-                    i++;
+                    TopWords.Add(new WordCount(list[i + 1].Key, list[i + 1].Value)); // ST07
+                    i++;// ST08
                 }
-                i++;
+                i++;// ST09
             }
             return TopWords;
         }
@@ -83,7 +83,7 @@ namespace Text_Analysis.Services
         //Получить общее количество слов
         public static int GetWordsCount(List<string> words)
         {
-            if(words == null) return 0;
+            if(words == null) return 0; //ST10
             return words.Count;
         }
 
