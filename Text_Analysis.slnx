@@ -3,4 +3,5 @@
   <Project Path="Text_Analysis/Text_Analysis.csproj">
     <BuildDependency Project="TestProject_Text_Analysis/TestProject_Text_Analysis.csproj" />
   </Project>
+  <Project Path="Тext_Analysis_BddTests/Text_Analysis_BddTests.csproj" Id="4c92e0dc-6a4d-4c5c-8973-cd4a4844cb16" />
 </Solution>
