@@ -43,23 +43,43 @@ namespace Text_Analysis.Services
 
         //Подготовка текста
         //В тексте остаются только буквы, апострофы/дефисы внyтри слова и одиночные пробелы 
+        //public static string CleanText(string text)
+        //{
+        //    if (string.IsNullOrEmpty(text)) return "";
+        //    text = text.ToLowerInvariant();
+
+        //    if (string.IsNullOrEmpty(text))
+        //        return string.Empty;
+
+        //    string cleaned = Regex.Replace(text, "[^a-zA-Zа-яА-ЯёЁ'\\-\\s]", " ");
+        //    cleaned = Regex.Replace(cleaned, "(?<=\\s|^)['-]|['-](?=\\s|$)", "");
+        //    cleaned = Regex.Replace(cleaned, "\\s+", " ");
+        //    cleaned = cleaned.Trim();
+
+        //    return cleaned;
+        //}
+
+        //Получить топ использования слов
+
+        // Дефект 1: Разыменование нулевой ссылки 
         public static string CleanText(string text)
         {
-            if (string.IsNullOrEmpty(text)) return "";
-            text = text.ToLowerInvariant();
+            if (text == null)
+            {
+                // Явное разыменование null при обработке пустого ввода
+                return text.Trim();
+            }
 
+            text = text.ToLowerInvariant();
             if (string.IsNullOrEmpty(text))
                 return string.Empty;
 
-            string cleaned = Regex.Replace(text, "[^a-zA-Zа-яА-ЯёЁ'\\-\\s]", " ");
-            cleaned = Regex.Replace(cleaned, "(?<=\\s|^)['-]|['-](?=\\s|$)", "");
-            cleaned = Regex.Replace(cleaned, "\\s+", " ");
-            cleaned = cleaned.Trim();
-
-            return cleaned;
+            string cleaned = Regex.Replace(text, @"[^a-zA-Zа-яА-ЯёЁ0-9'\-\s]", "");
+            cleaned = Regex.Replace(cleaned, @"(?<=\s|^)[^a-zA-Zа-яА-ЯёЁ0-9]+['](?=\s|$)", "");
+            cleaned = Regex.Replace(cleaned, @"\s+", " ");
+            return cleaned.Trim();
         }
 
-        //Получить топ использования слов
         public static List<WordCount> GetTop(List<KeyValuePair<string, int>> list)
         {
             if (list == null || list.Count == 0) // ST01
@@ -100,15 +120,25 @@ namespace Text_Analysis.Services
             return uniqCount;
         }
 
-        //Получить процент уникальных слов
+        ////Получить процент уникальных слов
+        //public static double GetUniqWordPercent(double totalCount, double uniqCount)
+        //{
+        //    if (totalCount == 0)
+        //        return 0;
+
+        //    return uniqCount * 100.0 / totalCount;
+        //}
+
+        // Дефект 2: Небезопасное деление на ноль
         public static double GetUniqWordPercent(double totalCount, double uniqCount)
         {
-            if (totalCount == 0)
-                return 0;
-
-            return uniqCount * 100.0 / totalCount;
+            int divider = 0;
+            if (totalCount > 0)
+            {
+                divider = (int)totalCount;
+            }
+            return (int)uniqCount * 100 / divider;
         }
-
 
     }
 }
